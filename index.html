@@ -1,760 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoaltec.ai - AI Music Innovation in the Shoals</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
-            color: #ffffff;
-            background: #0a0a0a;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 30%, #16213e 70%, #0f172a 100%);
-            z-index: -2;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(64, 224, 208, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(72, 202, 228, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, rgba(144, 224, 239, 0.05) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 5%;
-            background: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .nav-icon {
-            width: 40px;
-            height: 40px;
-            position: relative;
-        }
-
-        .nav-brand {
-            font-size: 24px;
-            font-weight: 300;
-            background: linear-gradient(135deg, #40E0D0 0%, #48CAE4 50%, #90E0EF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #40E0D0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #40E0D0;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 5%;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            z-index: 1;
-        }
-
-        .hero-logo {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            justify-content: center;
-            margin-bottom: 50px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 24px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo-icon {
-            width: 120px;
-            height: 120px;
-            position: relative;
-        }
-
-        .wave-form {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-        }
-
-        .wave-bar {
-            position: absolute;
-            background: linear-gradient(180deg, #40E0D0 0%, #48CAE4 50%, #90E0EF 100%);
-            border-radius: 3px;
-            animation: wave 2s ease-in-out infinite;
-            opacity: 0.9;
-        }
-
-        .wave-bar:nth-child(1) { left: 10%; width: 4px; height: 35px; animation-delay: 0s; }
-        .wave-bar:nth-child(2) { left: 20%; width: 4px; height: 55px; animation-delay: 0.1s; }
-        .wave-bar:nth-child(3) { left: 30%; width: 4px; height: 80px; animation-delay: 0.2s; }
-        .wave-bar:nth-child(4) { left: 40%; width: 4px; height: 50px; animation-delay: 0.3s; }
-        .wave-bar:nth-child(5) { left: 50%; width: 4px; height: 95px; animation-delay: 0.4s; }
-        .wave-bar:nth-child(6) { left: 60%; width: 4px; height: 65px; animation-delay: 0.5s; }
-        .wave-bar:nth-child(7) { left: 70%; width: 4px; height: 75px; animation-delay: 0.6s; }
-        .wave-bar:nth-child(8) { left: 80%; width: 4px; height: 40px; animation-delay: 0.7s; }
-        .wave-bar:nth-child(9) { left: 90%; width: 4px; height: 25px; animation-delay: 0.8s; }
-
-        @keyframes wave {
-            0%, 100% { 
-                transform: translateY(0) scaleY(1);
-                opacity: 0.9;
-            }
-            50% { 
-                transform: translateY(-12px) scaleY(1.4);
-                opacity: 1;
-                filter: brightness(1.2);
-            }
-        }
-
-        .neural-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.4;
-        }
-
-        .node {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #40E0D0;
-            border-radius: 50%;
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        .node:nth-child(1) { top: 15%; left: 15%; animation-delay: 0s; }
-        .node:nth-child(2) { top: 20%; right: 20%; animation-delay: 1s; }
-        .node:nth-child(3) { bottom: 25%; left: 25%; animation-delay: 2s; }
-        .node:nth-child(4) { bottom: 20%; right: 15%; animation-delay: 1.5s; }
-
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 0.4; 
-                transform: scale(1);
-            }
-            50% { 
-                opacity: 1; 
-                transform: scale(1.8);
-            }
-        }
-
-        .hero-text h1 {
-            font-size: 64px;
-            font-weight: 300;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #40E0D0 0%, #48CAE4 30%, #90E0EF 60%, #CAF0F8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero-tagline {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
-
-        .hero-description {
-            font-size: 22px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 900px;
-            margin: 0 auto 50px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 18px 40px;
-            background: linear-gradient(135deg, #40E0D0 0%, #48CAE4 100%);
-            color: #0a0a0a;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(64, 224, 208, 0.3);
-            filter: brightness(1.1);
-        }
-
-        /* Services Section */
-        .services {
-            padding: 120px 5%;
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .services-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 48px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #40E0D0 0%, #48CAE4 50%, #90E0EF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-subtitle {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 80px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(64, 224, 208, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .service-card:hover::before {
-            left: 100%;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(64, 224, 208, 0.3);
-            box-shadow: 0 20px 40px rgba(64, 224, 208, 0.1);
-        }
-
-        .service-icon {
-            font-size: 48px;
-            margin-bottom: 25px;
-            color: #40E0D0;
-        }
-
-        .service-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-
-        .service-card p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 120px 5%;
-            background: linear-gradient(135deg, rgba(64, 224, 208, 0.05) 0%, rgba(72, 202, 228, 0.03) 100%);
-        }
-
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-form {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            padding: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 16px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #40E0D0;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 3px rgba(64, 224, 208, 0.1);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #40E0D0 0%, #48CAE4 100%);
-            color: #0a0a0a;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(64, 224, 208, 0.3);
-            filter: brightness(1.1);
-        }
-
-        /* Footer */
-        footer {
-            padding: 60px 5% 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-logo {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .hero-text h1 {
-                font-size: 42px;
-            }
-
-            .hero-description {
-                font-size: 18px;
-            }
-
-            .section-title {
-                font-size: 36px;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-form {
-                padding: 40px 30px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-text h1 {
-                font-size: 32px;
-            }
-
-            .logo-icon {
-                width: 80px;
-                height: 80px;
-            }
-
-            .contact-form {
-                padding: 30px 20px;
-            }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Shoaltec.ai — AI Music Innovation in the Shoals</title>
+<meta name="description" content="Shoaltec.ai fuses AI with human creativity to deliver custom music: anthems, jingles, themes, and bespoke productions with rapid turnaround." />
+<meta name="theme-color" content="#40E0D0" />
+<style>
+  :root{
+    --bg0:#0a0a0a;
+    --panel:rgba(255,255,255,.03);
+    --panel-2:rgba(255,255,255,.05);
+    --text:#fff;
+    --muted:rgba(255,255,255,.7);
+    --line:rgba(255,255,255,.12);
+    --accent:#40E0D0;
+    --accent-b:#48CAE4;
+    --accent-c:#90E0EF;
+    --radius:20px;
+    --blur:18px;
+    --shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    line-height:1.6;background:var(--bg0);color:var(--text);overflow-x:hidden
+  }
+
+  /* BG gradient layer */
+  .bg-grad{
+    position:fixed;inset:0;z-index:-3;
+    background:
+      radial-gradient(1200px 800px at 10% 90%, rgba(64,224,208,.12), transparent 60%),
+      radial-gradient(1000px 700px at 90% 10%, rgba(72,202,228,.10), transparent 60%),
+      radial-gradient(900px 600px at 50% 40%, rgba(144,224,239,.06), transparent 65%),
+      linear-gradient(135deg,#0a0a0a 0%,#111827 40%,#0f172a 100%);
+  }
+
+  /* Constellation canvas */
+  #bg-canvas{position:fixed;inset:0;z-index:-2;opacity:.55}
+
+  /* Top progress */
+  .progress{
+    position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-b));z-index:9999;
+    box-shadow:0 0 20px rgba(64,224,208,.6)
+  }
+
+  /* Nav */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));
+    background:rgba(10,10,10,.6);border-bottom:1px solid var(--line)
+  }
+  .nav-wrap{max-width:1200px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{
+    width:42px;height:42px;border-radius:12px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg, rgba(64,224,208,.15), rgba(72,202,228,.08));
+    border:1px solid var(--line)
+  }
+  .wave{position:absolute;inset:8px 10px;display:flex;gap:3px;align-items:flex-end;justify-content:center}
+  .wave > i{
+    width:3px;border-radius:2px;background:linear-gradient(180deg,var(--accent),var(--accent-b),var(--accent-c));
+    height:20px;opacity:.95;transform-origin:bottom center;display:block
+  }
+  .wordmark{
+    font-size:22px;font-weight:600;
+    background:linear-gradient(135deg,var(--accent) 0%,var(--accent-b) 50%,var(--accent-c) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent
+  }
+  .links{display:flex;gap:26px}
+  .links a{
+    color:rgba(255,255,255,.82);text-decoration:none;position:relative;font-weight:500
+  }
+  .links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:.25s}
+  .links a:hover::after{transform:scaleX(1)}
+
+  /* Sections */
+  section{padding:120px 20px}
+  .container{max-width:1200px;margin:auto}
+
+  /* Hero */
+  .hero{min-height:100vh;display:grid;place-items:center;padding-top:140px}
+  .hero-card{
+    text-align:center;background:var(--panel);border:1px solid var(--line);
+    border-radius:24px;padding:48px;backdrop-filter:blur(var(--blur));
+    box-shadow:var(--shadow)
+  }
+  .hero h1{
+    font-size:clamp(36px,6vw,64px);font-weight:800;letter-spacing:-.02em;line-height:1.05;
+    background:linear-gradient(135deg,var(--accent) 0%, var(--accent-b) 50%, #caf0f8 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:12px 0 8px
+  }
+  .tag{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.65)}
+  .lead{max-width:900px;margin:20px auto 34px;color:rgba(255,255,255,.83);font-size:20px}
+  .cta{
+    display:inline-block;padding:16px 28px;border-radius:14px;font-weight:700;letter-spacing:.03em;
+    background:linear-gradient(135deg,var(--accent),var(--accent-b));
+    color:#0b0f12;text-decoration:none;box-shadow:0 12px 30px rgba(64,224,208,.35);
+    transition:transform .2s ease, filter .2s ease
+  }
+  .cta:hover{transform:translateY(-2px);filter:brightness(1.06)}
+
+  /* Services + 3D tilt */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;position:relative;overflow:hidden;
+    transform-style:preserve-3d;transition:transform .18s ease, box-shadow .18s ease
+  }
+  .card:before{
+    content:"";position:absolute;inset:-20% -20% auto auto;height:140px;width:140px;border-radius:50%;
+    background:radial-gradient(closest-side, rgba(64,224,208,.25), transparent 70%);filter:blur(20px);transform:translateZ(30px)
+  }
+  .card:hover{box-shadow:0 18px 60px rgba(64,224,208,.12)}
+  .icon{font-size:34px;margin-bottom:8px;color:var(--accent)}
+  .card h3{margin-bottom:8px}
+  .card p{color:var(--muted)}
+
+  /* Stats */
+  .stats{margin-top:34px;display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
+  .stat{min-width:180px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 22px;text-align:center}
+  .stat b{font-size:28px;display:block}
+
+  /* Contact */
+  .contact-wrap{
+    display:grid;grid-template-columns:1.05fr .95fr;gap:26px
+  }
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px;backdrop-filter:blur(var(--blur))}
+  .panel h2{font-weight:700;margin-bottom:10px}
+  .panel p{color:var(--muted)}
+  form{display:grid;gap:14px;margin-top:8px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  input,textarea{
+    width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.18);
+    background:var(--panel-2);color:var(--text);font:inherit
+  }
+  textarea{min-height:120px;resize:vertical}
+  .submit{cursor:pointer;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent-b));color:#0b0f12;border:none}
+  .note{font-size:12px;color:rgba(255,255,255,.55)}
+
+  /* Footer */
+  footer{padding:64px 20px;border-top:1px solid var(--line);text-align:center;color:rgba(255,255,255,.7)}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.show{opacity:1;transform:none}
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion:reduce){
+    .wave i,.card,.reveal{animation:none;transition:none}
+    #bg-canvas{display:none}
+  }
+
+  /* Mobile tweaks */
+  @media (max-width:880px){ .contact-wrap{grid-template-columns:1fr} .row{grid-template-columns:1fr} }
+</style>
 </head>
 <body>
-    <div class="bg-animation"></div>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="nav-logo">
-                <div class="nav-icon">
-                    <div class="wave-form">
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                    </div>
-                </div>
-                <div class="nav-brand">Shoaltec.ai</div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+<div class="bg-grad"></div>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<nav>
+  <div class="nav-wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <div class="wave" id="wave">
+          <!-- bars are injected by JS -->
         </div>
-    </nav>
+      </div>
+      <div class="wordmark">Shoaltec.ai</div>
+    </div>
+    <div class="links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-logo">
-                <div class="logo-icon">
-                    <div class="wave-form">
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                    </div>
-                    <div class="neural-overlay">
-                        <div class="node"></div>
-                        <div class="node"></div>
-                        <div class="node"></div>
-                        <div class="node"></div>
-                    </div>
-                </div>
-                <div class="hero-text">
-                    <h1>Shoaltec.ai</h1>
-                    <div class="hero-tagline">AI Music Innovation</div>
-                </div>
-            </div>
-            <div class="hero-description">
-                Pioneering the future of music in the Shoals by fusing artificial intelligence with human creativity. We empower artists, songwriters, and producers to create, publish, and place music faster, smarter, and more authentically.
-            </div>
-            <a href="#contact" class="cta-button">Get Your Custom Quote</a>
-        </div>
-    </section>
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-card reveal tilt">
+      <div class="tag">AI Music Innovation</div>
+      <h1>Where Soul Meets <span style="white-space:nowrap">Machine Intelligence</span></h1>
+      <p class="lead">
+        We fuse world-class songwriting with AI-enhanced production to deliver anthems, themes, and custom music
+        faster than traditional shops — without losing the human feel.
+      </p>
+      <a class="cta" href="#contact">Get Your Custom Quote</a>
+      <div class="stats">
+        <div class="stat reveal"><b data-count="500">0</b><span>Custom cues delivered</span></div>
+        <div class="stat reveal"><b data-count="72">0</b><span>Hour average turnaround</span></div>
+        <div class="stat reveal"><b data-count="4.9">0</b><span>Avg. client rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="services-container">
-            <h2 class="section-title">Custom Music Solutions</h2>
-            <p class="section-subtitle">
-                From sports entertainment to business jingles, we create custom-tailored songs that capture your unique vision and brand identity with the power of AI-enhanced creativity.
-            </p>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🏟️</div>
-                    <h3>Sports Entertainment</h3>
-                    <p>High-energy anthems, team songs, and stadium music that gets crowds on their feet. Custom compositions that capture the spirit and excitement of your sport or team.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">📺</div>
-                    <h3>Media & Broadcasting</h3>
-                    <p>Professional soundtracks, theme music, and audio branding for television, radio, podcasts, and digital media platforms. Music that enhances your content's impact.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🎵</div>
-                    <h3>Business Jingles</h3>
-                    <p>Memorable commercial music, brand anthems, and corporate soundtracks that make your business unforgettable. Music that tells your brand's story.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🎬</div>
-                    <h3>Custom Productions</h3>
-                    <p>Bespoke musical compositions for any project or occasion. From advertising campaigns to special events, we bring your creative vision to life.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">⚡</div>
-                    <h3>AI-Enhanced Workflow</h3>
-                    <p>Leveraging cutting-edge AI technology to deliver high-quality music faster than traditional methods, while preserving the human touch and creative authenticity.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🎯</div>
-                    <h3>Rapid Turnaround</h3>
-                    <p>Quick delivery without compromising quality. Our AI-powered process allows us to create, iterate, and deliver professional music on tight deadlines.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:22px">
+      <h2 style="font-size:40px;font-weight:800;letter-spacing:-.01em;
+        background:linear-gradient(135deg,var(--accent),var(--accent-b),var(--accent-c));
+        -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+        Custom Music Solutions
+      </h2>
+      <p style="color:var(--muted);max-width:820px;margin:10px auto 0">
+        From sports arenas to broadcast packages and unforgettable business jingles — we score your story with precision.
+      </p>
+    </div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="contact-container">
-            <h2 class="section-title">Start Your Project</h2>
-            <p class="section-subtitle">
-                Ready to bring your vision to life? Tell us about your project and we'll provide a custom quote tailored to your specific needs.
-            </p>
-            
-            <form class="contact-form" id="contactForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="business">Business Name</label>
-                        <input type="text" id="business" name="business" placeholder="Your business or organization (optional)">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required placeholder="your@email.com">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="project">Project Details *</label>
-                    <textarea id="project" name="project" required placeholder="Tell us about your custom music project. Include details about the style, mood, duration, intended use, timeline, and any specific requirements you have in mind..."></textarea>
-                </div>
-                
-                <button type="submit" class="submit-button">Request Custom Quote</button>
-            </form>
-        </div>
-    </section>
+    <div class="grid">
+      <div class="card tilt reveal"><div class="icon">🏟️</div><h3>Sports Entertainment</h3><p>Adrenaline anthems, walk-out music, hype cuts, and team themes engineered to lift the crowd.</p></div>
+      <div class="card tilt reveal"><div class="icon">📺</div><h3>Media & Broadcasting</h3><p>Cohesive audio branding and theme packages for TV, radio, podcasts, streaming & social.</p></div>
+      <div class="card tilt reveal"><div class="icon">🎵</div><h3>Business Jingles</h3><p>Hooks that stick. We turn your brand promise into a melody people remember.</p></div>
+      <div class="card tilt reveal"><div class="icon">🎬</div><h3>Custom Productions</h3><p>Trailer cues, ads, and event music — bespoke compositions, cleared and delivered fast.</p></div>
+      <div class="card tilt reveal"><div class="icon">⚡</div><h3>AI-Enhanced Workflow</h3><p>Cutting-edge tools accelerate drafts and options while human taste makes the final call.</p></div>
+      <div class="card tilt reveal"><div class="icon">🎯</div><h3>Rapid Turnaround</h3><p>Agile iterations with broadcast-ready masters on tight deadlines.</p></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 Shoaltec.ai. Pioneering AI Music Innovation in the Shoals.</p>
-            <p style="margin-top: 10px; font-size: 14px;">Where Tradition Meets Technology - Preserving Soul, Embracing Innovation</p>
-        </div>
-    </footer>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="panel reveal">
+        <h2>Start Your Project</h2>
+        <p>Tell us what you're building and we'll reply with scope, timeline, and a tailored quote.</p>
+        <form id="form">
+          <div class="row">
+            <input name="name" id="name" placeholder="Full Name *" required />
+            <input name="business" id="business" placeholder="Business (optional)" />
+          </div>
+          <div class="row">
+            <input type="tel" name="phone" id="phone" placeholder="Phone *" required />
+            <input type="email" name="email" id="email" placeholder="Email *" required />
+          </div>
+          <textarea name="project" id="project" placeholder="Project details: style, mood, usage, length, deadline, references…" required></textarea>
+          <button class="submit" type="submit">Request Custom Quote</button>
+          <div class="note">Form opens your email client with pre-filled project details to send directly to us.</div>
+        </form>
+      </div>
+      <div class="panel reveal">
+        <h2>Why Shoaltec.ai?</h2>
+        <p style="margin-top:6px">Muscle Shoals roots. Modern tools. Radio-grade ears. We obsess over groove, lyric, and emotional lift — then deliver clean stems and masters ready for broadcast.</p>
+        <ul style="margin-top:14px;display:grid;gap:10px;color:var(--muted)">
+          <li>• Human-first taste, AI-accelerated options</li>
+          <li>• Clear licensing & fast approvals</li>
+          <li>• Stems, alt-mixes, 15/30/60s cutdowns</li>
+          <li>• Delivery via private link or your asset manager</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+<footer>
+  <div class="container">
+    © 2025 Shoaltec.ai — Where Tradition Meets Technology
+  </div>
+</footer>
 
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
-                business: document.getElementById('business').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                project: document.getElementById('project').value
-            };
-            
-            // Here you would typically send the data to your server
-            // For now, we'll show a success message
-            alert('Thank you for your interest! We\'ll review your project details and get back to you within 24 hours with a custom quote.');
-            
-            // Reset form
-            this.reset();
-        });
+<script>
+/* ---------- utility: prefers-reduced-motion ---------- */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Add scroll effect to navigation
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.style.background = 'rgba(10, 10, 10, 0.95)';
-            } else {
-                nav.style.background = 'rgba(10, 10, 10, 0.9)';
-            }
-        });
+/* ---------- progress bar ---------- */
+const prog = document.getElementById('progress');
+const setProgress = () => {
+  const scrollTop = window.scrollY;
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const p = Math.max(0, Math.min(1, scrollTop / docH));
+  prog.style.width = (p * 100) + '%';
+};
+setProgress(); window.addEventListener('scroll', setProgress);
 
-        // Add entrance animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+/* ---------- smooth anchor scroll ---------- */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const id = a.getAttribute('href');
+    const el = document.querySelector(id);
+    if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+/* ---------- reveal on scroll ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target); }});
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  revealEls.forEach(el=>io.observe(el));
+} else { revealEls.forEach(el=>el.classList.add('show')); }
 
-        // Observe service cards
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
-        });
-    </script>
+/* ---------- dynamic audio bars in logo ---------- */
+const wave = document.getElementById('wave');
+if(wave){
+  // Clear any existing content
+  wave.innerHTML = '';
+  
+  // Create 7 bars instead of 9 for better fit
+  for(let i=0;i<7;i++){ 
+    const bar = document.createElement('i'); 
+    bar.style.height = (12+Math.random()*16)+'px'; 
+    bar.style.display = 'block';
+    bar.style.width = '3px';
+    bar.style.borderRadius = '2px';
+    bar.style.background = 'linear-gradient(180deg,var(--accent),var(--accent-b),var(--accent-c))';
+    wave.appendChild(bar); 
+  }
+  
+  // Animate bars if motion is allowed
+  if(!reduceMotion){
+    function animateBars(){
+      const bars = wave.querySelectorAll('i');
+      bars.forEach((bar, idx) => {
+        const baseHeight = 8;
+        const amplitude = 8 + (idx * 1.5);
+        const frequency = 0.003 + (idx * 0.0008);
+        const phase = idx * 0.8;
+        const time = Date.now();
+        
+        const height = baseHeight + Math.sin(time * frequency + phase) * amplitude;
+        bar.style.height = Math.max(4, height) + 'px';
+      });
+      requestAnimationFrame(animateBars);
+    }
+    animateBars();
+  }
+}
+
+/* ---------- 3D tilt on hover ---------- */
+const tilts = document.querySelectorAll('.tilt');
+const tiltOn = (el, e)=>{
+  const r = el.getBoundingClientRect();
+  const px = (e.clientX - r.left) / r.width - .5;
+  const py = (e.clientY - r.top) / r.height - .5;
+  el.style.transform = `rotateX(${(-py*8)}deg) rotateY(${(px*10)}deg) translateZ(0)`;
+};
+const tiltOff = (el)=>{ el.style.transform = 'rotateX(0) rotateY(0)'; };
+tilts.forEach(el=>{
+  el.addEventListener('mousemove', e=>tiltOn(el,e));
+  el.addEventListener('mouseleave', ()=>tiltOff(el));
+  el.addEventListener('touchmove', e=>{ if(e.touches[0]) tiltOn(el,e.touches[0]); }, {passive:true});
+  el.addEventListener('touchend', ()=>tiltOff(el));
+});
+
+/* ---------- counters ---------- */
+const counters = document.querySelectorAll('[data-count]');
+const runCounter = (el)=>{
+  const target = +el.getAttribute('data-count');
+  const isFloat = String(target).includes('.');
+  const dur = 900; const start = performance.now();
+  const tick = (t)=>{
+    const p = Math.min(1,(t-start)/dur);
+    const val = target*p;
+    el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
+    if(p<1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+counters.forEach(el=>{
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(en=>{ if(en.isIntersecting){ runCounter(el); obs.disconnect(); }});
+  },{threshold:.6});
+  obs.observe(el);
+});
+
+/* ---------- constellation canvas bg ---------- */
+(function(){
+  if(reduceMotion) return;
+  const c = document.getElementById('bg-canvas');
+  const ctx = c.getContext('2d');
+  let dpr = Math.max(1, window.devicePixelRatio||1);
+  let w, h, pts;
+
+  function resize(){
+    w = c.clientWidth = window.innerWidth;
+    h = c.clientHeight = window.innerHeight;
+    c.width = Math.floor(w*dpr);
+    c.height = Math.floor(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    makePoints();
+  }
+  function makePoints(){
+    const count = Math.round(Math.min(120, (w*h)/14000));
+    pts = Array.from({length:count},()=>({
+      x:Math.random()*w, y:Math.random()*h,
+      vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35
+    }));
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    // draw links
+    for(let i=0;i<pts.length;i++){
+      const p = pts[i];
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>w) p.vx*=-1;
+      if(p.y<0||p.y>h) p.vy*=-1;
+      // nodes
+      ctx.fillStyle='rgba(64,224,208,.85)';
+      ctx.beginPath(); ctx.arc(p.x,p.y,1.2,0,Math.PI*2); ctx.fill();
+      // connect near neighbors
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j];
+        const dx=p.x-q.x, dy=p.y-q.y; const dist=dx*dx+dy*dy;
+        if(dist< 120*120){
+          const op = 1 - (dist/(120*120));
+          ctx.strokeStyle=`rgba(72,202,228,${op*.35})`;
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  resize(); step(); window.addEventListener('resize', resize);
+})();
+
+/* ---------- email form handler ---------- */
+document.getElementById('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  
+  const body =
+`New Custom Music Project Quote Request
+
+Name: ${document.getElementById('name').value}
+Business: ${document.getElementById('business').value || 'N/A'}
+Phone: ${document.getElementById('phone').value}
+Email: ${document.getElementById('email').value}
+
+Project Details:
+${document.getElementById('project').value}
+
+— Sent from shoaltec.ai`;
+
+  const mailto = `mailto:your-email@example.com?subject=${encodeURIComponent('Custom Music Project Quote Request')}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+});
+</script>
 </body>
 </html>
