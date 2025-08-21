@@ -53,7 +53,7 @@
     backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));
     background:rgba(10,10,10,.6);border-bottom:1px solid var(--line)
   }
-  .nav-wrap{max-width:1200px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .nav-wrap{max-width:1200px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:center}
   .brand{display:flex;gap:12px;align-items:center}
   .logo{
     width:42px;height:42px;border-radius:12px;position:relative;overflow:hidden;
@@ -70,12 +70,6 @@
     background:linear-gradient(135deg,var(--accent) 0%,var(--accent-b) 50%,var(--accent-c) 100%);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent
   }
-  .links{display:flex;gap:26px}
-  .links a{
-    color:rgba(255,255,255,.82);text-decoration:none;position:relative;font-weight:500
-  }
-  .links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:.25s}
-  .links a:hover::after{transform:scaleX(1)}
 
   /* Sections */
   section{padding:120px 20px}
@@ -173,11 +167,6 @@
       </div>
       <div class="wordmark">Shoaltec.ai</div>
     </div>
-    <div class="links">
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </div>
   </div>
 </nav>
 
@@ -192,11 +181,6 @@
         faster than traditional shops — without losing the human feel.
       </p>
       <a class="cta" href="#contact">Get Your Custom Quote</a>
-      <div class="stats">
-        <div class="stat reveal"><b data-count="500">0</b><span>Custom cues delivered</span></div>
-        <div class="stat reveal"><b data-count="72">0</b><span>Hour average turnaround</span></div>
-        <div class="stat reveal"><b data-count="4.9">0</b><span>Avg. client rating</span></div>
-      </div>
     </div>
   </div>
 </section>
@@ -440,7 +424,7 @@ ${document.getElementById('project').value}
 
 — Sent from shoaltec.ai`;
 
-  const mailto = `mailto:your-email@example.com?subject=${encodeURIComponent('Custom Music Project Quote Request')}&body=${encodeURIComponent(body)}`;
+  const mailto = `mailto:byrongreen2012@gmail.com?subject=${encodeURIComponent('Custom Music Project Quote Request')}&body=${encodeURIComponent(body)}`;
   window.location.href = mailto;
 });
 </script>
